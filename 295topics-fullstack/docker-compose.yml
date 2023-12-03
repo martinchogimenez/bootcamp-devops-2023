@@ -1,0 +1,40 @@
+ version: '3.3'
+ services:
+  db:
+    image: mongodb
+    container_name: contenedor_db
+    environment:
+      - POSTGRES_USER=POSTGRES
+      - POSTGRES_PASSWORD=postgres
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql
+    networks:
+      - backend
+  frontend:
+    image:
+    container_name: contenedor_front
+    ports:
+      -5001:80
+    depends_on:
+      - backend
+      - db
+    networks:
+      - frontend
+      - backend
+
+  backend:
+    image:
+    container_name: contenedor_back
+    depends_on:
+      - db
+    networks:
+      - backend
+
+volumes:
+  db-data:
+
+networks:
+  frontend:
+  backend:
+
